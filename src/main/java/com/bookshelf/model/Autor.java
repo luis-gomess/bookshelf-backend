@@ -1,5 +1,6 @@
 package com.bookshelf.model;
 
+import com.bookshelf.dto.autor.AutorRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,4 +26,9 @@ public class Autor {
 
     @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
+
+    public Autor(AutorRequestDTO autorDto) {
+        this.nome = autorDto.nome();
+        this.nacionalidade = autorDto.nacionalidade();
+    }
 }

@@ -1,5 +1,6 @@
 package com.bookshelf.model;
 
+import com.bookshelf.dto.livro.LivroRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,4 +45,15 @@ public class Livro {
 
     @OneToMany(mappedBy = "livro")
     private List<Emprestimo> emprestimos;
+
+    public Livro(LivroRequestDTO livroDto, Autor autor, Categoria categoria) {
+        this.titulo = livroDto.titulo();
+        this.isbn = livroDto.isbn();
+        this.anoPublicacao = livroDto.anoPublicacao();
+        this.nota = livroDto.nota();
+        this.observacao = livroDto.observacao();
+        this.statusLeitura = livroDto.statusLeitura();
+        this.autor = autor;
+        this.categoria = categoria;
+    }
 }

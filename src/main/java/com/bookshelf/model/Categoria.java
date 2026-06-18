@@ -1,5 +1,6 @@
 package com.bookshelf.model;
 
+import com.bookshelf.dto.categoria.CategoriaRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,4 +26,9 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria")
     private List<Livro> livros;
+
+    public Categoria(CategoriaRequestDTO categoriaDto) {
+        this.nome = categoriaDto.nome();
+        this.descricao = categoriaDto.descricao();
+    }
 }
