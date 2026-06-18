@@ -5,6 +5,7 @@ import com.bookshelf.dto.livro.LivroResponseDTO;
 import com.bookshelf.model.Livro;
 import com.bookshelf.service.LivroService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +37,18 @@ public class LivroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LivroResponseDTO> pegaLivroPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(LivroResponseDTO.fromEntity(this.livroService.pegaLivroPorId(id)));
+        return ResponseEntity.ok(LivroResponseDTO.fromEntity(this.livroService.pegarLivroPorId(id)));
     }
 
     @GetMapping
     public ResponseEntity<List<LivroResponseDTO>> pegarTodosLivros() {
         return ResponseEntity.ok(this.livroService.pegarTodosLivros().stream().map(LivroResponseDTO::fromEntity).toList());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarLivro(@PathVariable Long id) {
+        this.livroService.deletarLivro(id);
+
+        return ResponseEntity.notFound().build();
     }
 }

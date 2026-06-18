@@ -3,26 +3,32 @@ package com.bookshelf.service;
 import com.bookshelf.dto.livro.LivroRequestDTO;
 import com.bookshelf.model.Autor;
 import com.bookshelf.model.Categoria;
+import com.bookshelf.model.Emprestimo;
 import com.bookshelf.model.Livro;
+import com.bookshelf.model.StatusEmprestimo;
 import com.bookshelf.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivroService {
     private final LivroRepository livroRepository;
     private final AutorService autorService;
     private final CategoriaService categoriaService;
+    private final EmprestimoService emprestimoService;
 
     public LivroService(
             LivroRepository livroRepository,
             AutorService autorService,
-            CategoriaService categoriaService
+            CategoriaService categoriaService,
+            EmprestimoService emprestimoService
     ) {
         this.livroRepository = livroRepository;
         this.autorService = autorService;
         this.categoriaService = categoriaService;
+        this.emprestimoService = emprestimoService;
     }
 
     public Livro addLivro(LivroRequestDTO livroDto) {
@@ -34,7 +40,7 @@ public class LivroService {
         return this.livroRepository.save(novoLivro);
     }
 
-    public Livro pegaLivroPorId(Long id) {
+    public Livro pegarLivroPorId(Long id) {
         return this.livroRepository.findById(id).orElseThrow(null);
     }
 
@@ -42,11 +48,9 @@ public class LivroService {
         return this.livroRepository.findAll();
     }
 
-    public List<Livro> pegarLivrosPorAutor(Long id) {
-        return this.livroRepository.findLivrosByAutor_Id(id);
-    }
+    public void deletarLivro(Long id) {
+        Livro livro = this.pegarLivroPorId(id);
 
-    public List<Livro> pegarLivrosPorCategoria(Long id) {
-        return this.livroRepository.findLivrosByCategoria_Id(id);
+        this.livroRepository.delete(livro);
     }
 }

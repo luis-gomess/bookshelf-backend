@@ -1,6 +1,7 @@
 package com.bookshelf.model;
 
 import com.bookshelf.dto.livro.LivroRequestDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,7 +44,7 @@ public class Livro {
     @ManyToOne(optional = false)
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "livro")
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
     private List<Emprestimo> emprestimos;
 
     public Livro(LivroRequestDTO livroDto, Autor autor, Categoria categoria) {

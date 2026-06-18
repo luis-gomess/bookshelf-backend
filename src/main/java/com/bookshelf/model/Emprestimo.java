@@ -1,5 +1,6 @@
 package com.bookshelf.model;
 
+import com.bookshelf.dto.emprestimo.EmprestimoRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,4 +38,8 @@ public class Emprestimo {
 
     @ManyToOne(optional = false)
     private Livro livro;
+
+    public Emprestimo(EmprestimoRequestDTO emprestimoDto) {
+
+    }
 }
