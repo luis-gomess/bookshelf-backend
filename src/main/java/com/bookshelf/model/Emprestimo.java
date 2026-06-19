@@ -40,6 +40,14 @@ public class Emprestimo {
     private Livro livro;
 
     public Emprestimo(EmprestimoRequestDTO emprestimoDto) {
+        this.nomePessoa = emprestimoDto.nomePessoa();
+        this.dataEmprestimo = emprestimoDto.dataEmprestimo();
+        this.dataDevolucaoPrevista = emprestimoDto.dataDevolucaoPrevista();
+        this.statusEmprestimo = StatusEmprestimo.EMPRESTADO;
+    }
 
+    public Emprestimo(EmprestimoRequestDTO emprestimoDto, Livro livro) {
+        this(emprestimoDto);
+        this.livro = livro;
     }
 }

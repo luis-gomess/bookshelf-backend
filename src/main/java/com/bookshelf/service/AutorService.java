@@ -1,6 +1,8 @@
 package com.bookshelf.service;
 
 import com.bookshelf.dto.autor.AutorRequestDTO;
+import com.bookshelf.exception.AutorComLivrosException;
+import com.bookshelf.exception.AutorNaoEncontradoException;
 import com.bookshelf.model.Autor;
 import com.bookshelf.model.Livro;
 import com.bookshelf.repository.AutorRepository;
@@ -25,8 +27,17 @@ public class AutorService {
         return this.autorRepository.save(novoAutor);
     }
 
+    public Autor atualizarAutor(Long id, AutorRequestDTO autorDto) {
+        Autor autor = this.pegaAutorPoId(id);
+
+        autor.setNome(autorDto.nome());
+        autor.setNacionalidade(autorDto.nacionalidade());
+
+        return this.autorRepository.save(autor);
+    }
+
     public Autor pegaAutorPoId(Long id) {
-        return this.autorRepository.findById(id).orElseThrow(null);
+        return this.autorRepository.findById(id).orElseThrow(AutorNaoEncontradoException::new);
     }
 
     public List<Autor> pegarTodosAutores() {
@@ -39,7 +50,7 @@ public class AutorService {
         List<Livro> livrosPorAutor = this.livroRepository.findLivrosByAutor_Id(id);
 
         if (!livrosPorAutor.isEmpty()) {
-            throw new RuntimeException("Ainda existem livros ligados ao autor");
+            throw new AutorComLivrosException();
         }
 
         this.autorRepository.delete(autor);

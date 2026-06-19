@@ -1,34 +1,29 @@
 package com.bookshelf.service;
 
 import com.bookshelf.dto.livro.LivroRequestDTO;
+import com.bookshelf.exception.LivroNaoEncontradoException;
 import com.bookshelf.model.Autor;
 import com.bookshelf.model.Categoria;
-import com.bookshelf.model.Emprestimo;
 import com.bookshelf.model.Livro;
-import com.bookshelf.model.StatusEmprestimo;
 import com.bookshelf.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LivroService {
     private final LivroRepository livroRepository;
     private final AutorService autorService;
     private final CategoriaService categoriaService;
-    private final EmprestimoService emprestimoService;
 
     public LivroService(
             LivroRepository livroRepository,
             AutorService autorService,
-            CategoriaService categoriaService,
-            EmprestimoService emprestimoService
+            CategoriaService categoriaService
     ) {
         this.livroRepository = livroRepository;
         this.autorService = autorService;
         this.categoriaService = categoriaService;
-        this.emprestimoService = emprestimoService;
     }
 
     public Livro addLivro(LivroRequestDTO livroDto) {
@@ -40,8 +35,25 @@ public class LivroService {
         return this.livroRepository.save(novoLivro);
     }
 
+    public Livro atualizarLivro(Long id, LivroRequestDTO livroDto) {
+        Livro livro = this.pegarLivroPorId(id);
+        Autor autor = this.autorService.pegaAutorPoId(livroDto.autorId());
+        Categoria categoria = this.categoriaService.pegarCategoriaPoId(livroDto.categoriaId());
+
+        livro.setTitulo(livroDto.titulo());
+        livro.setIsbn(livroDto.isbn());
+        livro.setAnoPublicacao(livroDto.anoPublicacao());
+        livro.setNota(livroDto.nota());
+        livro.setObservacao(livroDto.observacao());
+        livro.setStatusLeitura(livroDto.statusLeitura());
+        livro.setAutor(autor);
+        livro.setCategoria(categoria);
+
+        return this.livroRepository.save(livro);
+    }
+
     public Livro pegarLivroPorId(Long id) {
-        return this.livroRepository.findById(id).orElseThrow(null);
+        return this.livroRepository.findById(id).orElseThrow(LivroNaoEncontradoException::new);
     }
 
     public List<Livro> pegarTodosLivros() {
