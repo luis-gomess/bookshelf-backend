@@ -47,6 +47,10 @@ public class Livro {
     @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
     private List<Emprestimo> emprestimos;
 
+    public Livro() {
+
+    }
+
     public Livro(LivroRequestDTO livroDto, Autor autor, Categoria categoria) {
         this.titulo = livroDto.titulo();
         this.isbn = livroDto.isbn();

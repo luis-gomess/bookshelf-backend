@@ -27,6 +27,10 @@ public class Categoria {
     @OneToMany(mappedBy = "categoria")
     private List<Livro> livros;
 
+    public Categoria() {
+
+    }
+
     public Categoria(CategoriaRequestDTO categoriaDto) {
         this.nome = categoriaDto.nome();
         this.descricao = categoriaDto.descricao();

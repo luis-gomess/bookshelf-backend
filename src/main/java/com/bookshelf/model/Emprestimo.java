@@ -39,6 +39,10 @@ public class Emprestimo {
     @ManyToOne(optional = false)
     private Livro livro;
 
+    public Emprestimo() {
+
+    }
+
     public Emprestimo(EmprestimoRequestDTO emprestimoDto) {
         this.nomePessoa = emprestimoDto.nomePessoa();
         this.dataEmprestimo = emprestimoDto.dataEmprestimo();

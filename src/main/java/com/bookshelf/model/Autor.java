@@ -27,6 +27,10 @@ public class Autor {
     @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
 
+    public Autor() {
+
+    }
+
     public Autor(AutorRequestDTO autorDto) {
         this.nome = autorDto.nome();
         this.nacionalidade = autorDto.nacionalidade();
